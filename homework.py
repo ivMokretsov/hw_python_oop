@@ -11,24 +11,24 @@ class InfoMessage:
     speed: float
     calories: float
 
+    MESSAGE_TEMPLATE: str = (
+        'Тип тренировки: {training_type}; '
+        'Длительность: {duration:.3f} ч.; '
+        'Дистанция: {distance:.3f} км; '
+        'Ср. скорость: {speed:.3f} км/ч; '
+        'Потрачено ккал: {calories:.3f}.'
+    )
+
     def get_message(self) -> str:
         training_info = asdict(self)
-        return(
-            (
-                'Тип тренировки: {training_type}; '
-                'Длительность: {duration:.3f} ч.; '
-                'Дистанция: {distance:.3f} км; '
-                'Ср. скорость: {speed:.3f} км/ч; '
-                'Потрачено ккал: {calories:.3f}.'
-            ).format(**training_info)
-        )
+        return self.MESSAGE_TEMPLATE.format(**training_info)
 
 
 class Training:
     """Базовый класс тренировки."""
     M_IN_KM: int = 1000
     LEN_STEP: float = 0.65
-    MINUTES_PER_HOUR = 60
+    MINUTES_PER_HOUR: int = 60
 
     def __init__(
         self,
@@ -50,9 +50,7 @@ class Training:
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        raise Warning(
-            'Для класса Training не реализован метод get_spent_calories'
-        )
+        raise NotImplementedError
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
